@@ -61,14 +61,14 @@ async def handle_photo(message: Message):
     await message.answer_photo(FSInputFile(output_path))
 
 # ---------------- WEBHOOK SERVER ---------------- #
-@app.route("/", methods=["POST"])
+@app.route("/webhook", methods=["POST"])
 def webhook():
     update = request.get_json()
     asyncio.run(dp.feed_update(bot, update))
     return "OK", 200
 
 async def on_startup():
-    await bot.set_webhook(WEBHOOK_URL)
+    await bot.set_webhook(WEBHOOK_URL + "/webhook")
 
 if __name__ == "__main__":
     asyncio.run(on_startup())
